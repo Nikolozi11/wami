@@ -114,6 +114,27 @@ header {
   padding: 10px; /* შიდა სივრცე */
 }
 
+.xl {
+  width: 30%;
+  color: white;
+  background-color: green;
+}
+
+.xl:hover {
+  width: 40%;
+  background-color: brown;
+  transition: 0.5s;
+}
+
+.chven {
+  width: 90%;
+  height: 90%;
+  background-color: rgba(255, 255, 255, 0.536);
+}
+
+.vin {
+  color: orange;
+}
 
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
