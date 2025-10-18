@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <title>Protected Site</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d1b2a;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #password-container {
+        width: 70%;
+      text-align: center;
+      background: #1b263b;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    input {
+        width: 80%;
+        height: 40px;
+        font-size: 80px;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+        width: 80%;
+        height: 40px;
+        font-size: 80px;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    button {
+        width: 80%;
+        height: 80px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #00b4d8;
+      color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #0077b6;
+    }
+
+    #site-content {
+      display: none;
+      text-align: center;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div id="password-container">
+    <h2>შეიყვანეთ პაროლი</h2>
+    <input type="text" id="passwordInput" placeholder="პაროლი...">
+    <br>
+    <button onclick="checkPassword()">შესვლა</button>
+    <p id="error" style="color:red;"></p>
+  </div>
+
+  <div id="site-content" style="display:none; text-align:center;">
+    <h1>წარსული, აწმყო, მომავალი - იმედი</h1>
+    <p>კლუბი სადაც ისტორია ცოცხლობს და იდეები ხდება გამოცდილება</p>
+
+    <h1>წევრის ვალდებულება:</h1>
+    <p>✅პატივისცემა, თანამშრომლობა, ინიციატივა.</p>
+    <p>✅ჩართულობა კლუბის იდეებში და ღონისძიებებში.</p>
+    <p>✅სიმბოლო ჩვენი ერთობისა და შემოქმედებისადმი ერთგულების.</p>
+
+    <!-- აქ დავამატებთ სახელის ველს -->
+    <!-- modify this form HTML and place wherever you want your form -->
+<form
+  action="https://formspree.io/f/meornbvy"
+  method="POST"
+>
+  <label>
+    თქვენი მეილი:
+    <br>
+    <input type="email" name="email">
+  </label>
+  <br>
+  <label>
+    თქვენი სახელი:
+    <br>
+    <textarea name="message"></textarea>
+  </label>
+  <!-- your other form fields go here -->
+   <br>
+   <br>
+  <button id="sendAndDownload" type="submit">Send</button>
+</form>
+</div>
+
+  <script>
+    const validPasswords = ["ნიკოლოზ ბრეგვაძე", "ანდრია კობახიძე", "მარიამ დადვანი", "ლაზარე გაბიძაშვილი", "მარიამ აბრამიშვილი", "ანასტასია ალიევა", "სალომე სულხანიშვილი", "მარიამ ურუმაშვილი", "თაზო სამადაშვილი", "დიმიტრი ბოსტანჯიევი", "ბარბარე აკოფიანი"]; // შენი პაროლები
+
+    function checkPassword() {
+      const input = document.getElementById("passwordInput").value;
+      const error = document.getElementById("error");
+
+      if (validPasswords.includes(input)) {
+        document.getElementById("password-container").style.display = "none";
+        document.getElementById("site-content").style.display = "block";
+      } else {
+        error.textContent = "თქვენ არ ხართ სიაში ❌";
+      }
+    }
+  </script>
+</body>
+</html>

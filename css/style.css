@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: 25% 25% 25% 25%;
+}
+
+/*nav*/
+.sidebar {
+    grid-column: 1;
+    grid-row: 2/4;
+    background-color: #800000;
+    padding: 20px;
+    color: white;
+}
+
+.sidebar a {
+    display: block;
+    padding: 15px;
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #ffffff;
+    color: #800000;
+}
+
+/*kontent*/
+.content {
+    overflow: auto;
+    scrollbar-width: none;
+    grid-column: 2/4;
+    grid-row: 2/4;
+    width: 100%;
+    height: 100%;
+}
+
+/*iframe*/
+.fackebuk {
+    grid-column: 4;
+    grid-row: 2/4;
+}
+
+iframe {
+    scrollbar-width: none;
+    width: 100%;
+    height: 100%;
+}
+
+.facebook-feed {
+    margin-top: 20px;
+    max-width: 500px;
+    border: 2px solid #3b5998;
+    /* Facebook-ის ლურჯი ჩარჩო */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f0f2f5;
+    /* ფეისბუქის ფონის მსგავსი ფერი */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.facebook-feed iframe {
+    width: 100%;
+    max-width: 500px;
+    height: 500px;
+    border: none;
+    overflow: auto;
+}
+
+.facebook-feed::before {
+    content: "Facebook განყოფილება";
+    display: block;
+    background-color: #3b5998;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+/*ცონტენტ*/
+.content {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.content>div {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.content>div.active {
+    display: block;
+    opacity: 1;
+}
+
+/*footer*/
+footer {
+    grid-column: 1/5;
+    grid-row: 4;
+    background-color: #3b5998;
+}
+
+/*table*/
+.xl {
+    width: 80%;
+    height: 100%;
+}
+
+.gegma {
+    width: 100%;
+    height: 100%;
+}
+
+.xxl {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 20%;
+    height: 80px;
+    border: none;
+    border-radius: 10px;
+    background-color: green;
+    transition: 0.3s;
+}
+
+.fa-solid {
+    color: #ffffff;
+}
+
+.xxl:hover {
+    background-color: orange;
+}
+
+/*header*/
+header {
+    grid-column: 1/5;
+    grid-row: 1;
+    background-color: #3b5998;
+    justify-content: center;
+    justify-content: center;
+}
+
+.log {
+    width: 20%;
+}
