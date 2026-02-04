@@ -1,78 +1,191 @@
 <!DOCTYPE html>
 <html lang="ka">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./js/function.js" defer></script>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="shortcut icon" href="./img/withelogo.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <title>წამი</title>
+    <title>დიდგორი - სისხლი და მორალი</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root { --royal: #f1c40f; --win: #2ecc71; --loss: #e74c3c; }
+        body { background: #050505; color: #eee; font-family: 'Courier New', monospace; }
+        .war-room { border: 2px solid var(--royal); background: #111; border-radius: 10px; overflow: hidden; }
+        #map { background: #1a1c1e; width: 100%; height: 350px; border-bottom: 2px solid var(--royal); }
+        .stat-panel { background: #181818; padding: 10px; border-radius: 5px; border: 1px solid #333; transition: 0.3s; }
+        .panic { border-color: var(--loss) !important; animation: blink 0.8s infinite; }
+        @keyframes blink { 50% { border-color: transparent; } }
+        .console-box { height: 280px; overflow-y: auto; background: #000; padding: 15px; border: 1px solid #444; font-size: 0.9rem; }
+        .btn-strat { background: transparent; color: var(--royal); border: 1px solid var(--royal); padding: 12px; margin-bottom: 10px; width: 100%; text-align: left; transition: 0.3s; font-weight: bold; }
+        .btn-strat:hover:not([disabled]) { background: var(--royal); color: #000; }
+        .msg-win { color: var(--win); }
+        .msg-loss { color: var(--loss); }
+        .msg-info { color: #3498db; }
+    </style>
 </head>
-
 <body>
-    <header>
-        <img class="log" src="./img/withelogos.png" alt="">
-        <h1>წამი</h1>
-    </header>
 
-    <!-- ნავიგაციური მენიუ -->
-    <nav class="sidebar">
-        <a onclick="showContent('home')" href="#">მთავარი</a>
-        <a onclick="showContent('about')" href="#">ჩვენს შესახებ</a>
-        <a onclick="showContent('services')" href="#">ბლოგი</a>
-        <a onclick="showContent('contact')" href="#">ისტორიის კვალდაკვალ</a>
-        <a onclick="showContent('gegma')" href="#">ისტორიის კვალდაკვალ</a>
-    </nav>
+<div class="container py-4">
+    <div class="row mb-3">
+        <div class="col-6">
+            <h2 class="text-warning fw-bold">დიდგორი V10</h2>
+        </div>
+        <div class="col-6 text-end text-secondary">
+            რაუნდი: <span id="round-val" class="text-warning">1</span>/50
+        </div>
+    </div>
 
-    <section class="content">
-        <div id="home" class="active">
-            <h1>მთავარი გვერდი</h1>
-            <p>კეთილი იყოს თქვენი მობრძანება ჩვენს ვებსაიტზე! აქ შეგიძლიათ გაეცნოთ ჩვენს სერვისებსა და ინფორმაციას.</p>
-            <p>ჩვენი ვებსაიტი გთავაზობთ თანამედროვე გადაწყვეტებს თქვენი ბიზნესისთვის.</p>
-        </div>
-        <div id="about">
-            <h1>ჩვენს შესახებ</h1>
-            <p>ჩვენ ვართ გუნდი, რომელიც ქმნის თანამედროვე და მოსახერხებელ ვებსაიტებს. ჩვენი მიზანია თქვენი იდეების
-                ციფრულ სამყაროში განხორციელება!</p>
-            <p>ჩვენ გვაქვს 10 წელზე მეტი გამოცდილება ვებ-განვითარებაში.</p>
-        </div>
-        <div id="services">
-            <h1>სერვისები</h1>
-            <p>ჩვენ გთავაზობთ:</p>
-            <ul>
-                <li>ვებ-განვითარებას</li>
-                <li>UI/UX დიზაინს</li>
-                <li>SEO ოპტიმიზაციას</li>
-            </ul>
-        </div>
-        <div id="contact">
-            <h1>კონტაქტი</h1>
-            <p>დაგვიკავშირდით: <a href="mailto:example@email.com">example@email.com</a></p>
-            <p>ტელ: +995 555 123 456</p>
-            <p>მისამართი: თბილისი, საქართველო</p>
-        </div>
-        <div id="gegma">
-            <iframe class=""
-                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQn2NZjUb2kScAU1n6DRemTrY-t4MXii-wAS6aFlZxq-DZutA8819yfW-tojIr7Bw/pubhtml?widget=true&amp;headers=false"
-                style="height: 310px; border: none;"></iframe></center>
-            <a href="../gegmiscxrili/klubi wamis samoqmedo gegma.xls" download=""><button class="xxl"><i class="fa-solid fa-download"></i></button></a>
-        </div>
-    </section>
+    <div class="war-room shadow-lg">
+        <canvas id="map"></canvas>
 
-    <section class="fackebuk facebook-feed">
-        <iframe
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D61568697901548&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_friend_faces=true"
-            style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowfullscreen="true"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-    </section>
+        <div class="p-4">
+            <div class="row g-2 mb-4">
+                <div class="col-md-4">
+                    <div class="stat-panel text-center" id="panel-geo">
+                        <small>ქართული ლაშქარი</small>
+                        <h3 id="geo-army">56,000</h3>
+                        <div class="progress" style="height:4px;"><div id="geo-bar" class="progress-bar bg-success" style="width:100%"></div></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-panel text-center">
+                        <small>კოალიციური ურდო</small>
+                        <h3 id="ene-army">300,000</h3>
+                        <div class="progress" style="height:4px;"><div id="ene-bar" class="progress-bar bg-danger" style="width:100%"></div></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-panel text-center" id="panel-morale">
+                        <small>ლაშქრის მორალი</small>
+                        <h3 id="morale">100%</h3>
+                        <div class="progress" style="height:4px;"><div id="moral-bar" class="progress-bar bg-info" style="width:100%"></div></div>
+                    </div>
+                </div>
+            </div>
 
-    <footer>
+            <div class="row">
+                <div class="col-lg-7">
+                    <div id="console" class="console-box rounded">
+                        <div class="msg-info">[სისტემა]: ბრძოლა დაიწყო. გაფრთხილება: ყოველი დაღუპული ქართველი აქვეითებს ლაშქრის მორალს!</div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div id="actions"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-    </footer>
+<script>
+    let state = { geo: 56000, ene: 300000, morale: 100, round: 1 };
+    const canvas = document.getElementById('map');
+    const ctx = canvas.getContext('2d');
+
+    // მოქმედებები (ახლა მორალის მატება ხელით აღარ წერია, ის გამოითვლება)
+    const actions = [
+        { t: "200 მხედრის თავგანწირვა", g: -200, e: -45000, msg: "მტრის ბანაკში ქაოსია! ჩვენი დანაკარგი მცირეა, მტრისა - უზარმაზარი." },
+        { t: "ფრონტალური იერიში", g: -8000, e: -10000, msg: "სასტიკი შეტაკება! ქართველთა სისხლით გაიჟღინთა ველი." },
+        { t: "ყივჩაღების დარტყმა ფლანგიდან", g: -1500, e: -25000, msg: "ყივჩაღებმა მტერი ხეობისკენ მიიმწყვდიეს." },
+        { t: "ნიჩბისის ხეობის ჩაკეტვა", g: -400, e: -30000, msg: "სტრატეგიული ხაფანგი! მტერი ვიწროებში იხოცება." },
+        { t: "მაღლობებიდან დაცვა", g: -200, e: -5000, msg: "მშვილდოსნები მტერს მაღლობიდან თესავენ." },
+        { t: "მეფის პირადი იერიში", g: -1200, e: -35000, msg: "მეფე დავითი ბრძოლაშია! მტერი პანიკურად გარბის." },
+        { t: "გაუაზრებელი მანევრი", g: -9000, e: -3000, msg: "შეცდომა! მტერმა ალყაში მოგვაქცია და გვჟლეტს." },
+        { t: "ჯვაროსანთა შეტევა", g: -1000, e: -15000, msg: "რაინდებმა მტრის მძიმე კავალერია გაარღვიეს." },
+        { t: "უკან დახევა (ტაქტიკური)", g: -500, e: -10000, msg: "მტერი გამოგვეკიდა და ჩასაფრებაში მოჰყვა." },
+        { t: "ხელჩართული ბრძოლა", g: -5000, e: -15000, msg: "ორივე მხარე მძიმე დანაკარგს განიცდის." }
+    ];
+
+    function drawMap() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#2d3436";
+        // ხეობის ფორმა
+        ctx.beginPath(); ctx.moveTo(0, 40); ctx.lineTo(140, 180); ctx.lineTo(0, 320); ctx.fill();
+        ctx.beginPath(); ctx.moveTo(canvas.width, 40); ctx.lineTo(canvas.width-140, 180); ctx.lineTo(canvas.width, 320); ctx.fill();
+
+        // ქართველები
+        ctx.fillStyle = "#2ecc71";
+        for(let i=0; i<Math.floor(state.geo/2000); i++) {
+            ctx.fillRect(160 + (i%12)*13, 230 + Math.floor(i/12)*13, 7, 7);
+        }
+        // მტერი
+        ctx.fillStyle = "#e74c3c";
+        for(let i=0; i<Math.floor(state.ene/6000); i++) {
+            ctx.beginPath(); ctx.arc(100 + (i%22)*15, 30 + Math.floor(i/22)*13, 4, 0, Math.PI*2); ctx.fill();
+        }
+    }
+
+    function updateUI() {
+        document.getElementById('geo-army').innerText = state.geo.toLocaleString();
+        document.getElementById('ene-army').innerText = state.ene.toLocaleString();
+        document.getElementById('morale').innerText = Math.round(state.morale) + "%";
+        document.getElementById('round-val').innerText = state.round;
+
+        document.getElementById('geo-bar').style.width = (state.geo / 56000 * 100) + "%";
+        document.getElementById('ene-bar').style.width = (state.ene / 300000 * 100) + "%";
+        document.getElementById('moral-bar').style.width = state.morale + "%";
+
+        if(state.morale < 25) document.getElementById('panel-morale').classList.add('panic');
+        else document.getElementById('panel-morale').classList.remove('panic');
+
+        if(state.geo <= 0) endGame("განადგურება", "ლაშქარი ბოლო კაცამდე ამოწყდა. საქართველო დაეცა.");
+        else if(state.morale <= 0) endGame("დანებება", "ჯარმა მორალი დაკარგა და მტერს ჩაჰბარდა. იმედი მოკვდა.");
+        else if(state.round > 50) {
+            if(state.ene < 70000) endGame("გამარჯვება", "თქვენ მტერი დიდგორის ველზე დაამარცხეთ!");
+            else endGame("მარცხი", "50 რაუნდი გავიდა, მტერი მაინც ბევრია.");
+        }
+    }
+
+    function calculateMorale(geoLoss, eneLoss) {
+        // ლოგიკა: ყოველი 1000 დაღუპული ქართველი აკლებს 5% მორალს
+        let lossImpact = (geoLoss / 1000) * 5; 
+        // მტრის ყოველი 10000 დაღუპული მატებს 2% მორალს
+        let winImpact = (Math.abs(eneLoss) / 10000) * 2;
+        
+        state.morale += (winImpact + lossImpact); // lossImpact არის უარყოფითი
+
+        if(state.morale > 100) state.morale = 100;
+        if(state.morale < 0) state.morale = 0;
+    }
+
+    function generate() {
+        const p = document.getElementById('actions');
+        p.innerHTML = '';
+        let opts = [...actions].sort(() => 0.5 - Math.random()).slice(0, 3);
+        opts.forEach(o => {
+            const b = document.createElement('button');
+            b.className = "btn-strat";
+            b.innerHTML = `> ${o.t}`;
+            b.onclick = () => {
+                let prevMorale = state.morale;
+                state.geo += o.g; state.ene += o.e; state.round++;
+                
+                calculateMorale(o.g, o.e);
+
+                const c = document.getElementById('console');
+                let diff = Math.round(state.morale - prevMorale);
+                let colorClass = diff >= 0 ? 'msg-win' : 'msg-loss';
+                
+                c.innerHTML = `<div class="${colorClass}"><span>[R${state.round-1}]</span> ${o.msg} (მორალი: ${diff > 0 ? '+'+diff : diff}%)</div>` + c.innerHTML;
+                
+                updateUI(); drawMap();
+                if(state.geo > 0 && state.morale > 0 && state.round <= 50) generate();
+            };
+            p.appendChild(b);
+        });
+    }
+
+    function endGame(t, m) {
+        document.body.innerHTML = `<div class="container py-5 text-center">
+            <h1 class="display-1 fw-bold ${t==='გამარჯვება'?'text-success':'text-danger'}">${t}</h1>
+            <p class="lead my-4 fs-3">${m}</p>
+            <button onclick="location.reload()" class="btn btn-warning btn-lg px-5">თავიდან დაწყება</button>
+        </div>`;
+    }
+
+    window.onload = () => {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+        drawMap(); updateUI(); generate();
+    };
+</script>
 </body>
-
 </html>
