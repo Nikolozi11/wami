@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Historia Sacra | ისტორიულ-რელიგიური კლუბი</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    .playfair { font-family: 'Playfair Display', serif; }
+    body { background: #faf7f0; display: flex; flex-direction: column; min-height: 100vh; }
+    main { flex: 1; }
+    .page-content { display: none; }
+    .page-content.active-page { display: block; }
+    
+    /* elegant navigation */
+    .nav-link {
+      position: relative;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      transition: color 0.2s ease;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: #8b5a2b;
+      transition: width 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border-radius: 2px;
+    }
+    .nav-link:hover { color: #8b5a2b; }
+    .nav-link:hover::after { width: 70%; }
+    .nav-link.active { color: #8b5a2b; font-weight: 600; }
+    .nav-link.active::after { width: 70%; }
+    
+    /* gallery */
+    .gallery-card {
+      transition: all 0.35s ease;
+    }
+    .gallery-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+    }
+    .forum-post {
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .forum-post:hover {
+      background: #fef7e8;
+      border-left-color: #b8860b;
+      transform: translateX(4px);
+    }
+    .action-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    .action-table th {
+      background: #2e3b2c;
+      color: #fef3d6;
+      font-weight: 600;
+      padding: 1rem 1.25rem;
+    }
+    .action-table td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid #e8dfce;
+    }
+    .action-table tr:last-child td { border-bottom: none; }
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.85rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-completed { background: #dcfce7; color: #166534; }
+    .badge-ongoing { background: #fff3e3; color: #9a3412; }
+    .badge-planned { background: #f1f0e8; color: #4b5563; }
+    .hero-gradient {
+      background: linear-gradient(135deg, #1e1b15 0%, #2c2418 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation - clean, no emojis, professional -->
+  <nav class="bg-white/95 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-stone-200/50">
+    <div class="max-w-6xl mx-auto px-5 md:px-8">
+      <div class="flex justify-between items-center py-4 md:py-5">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-stone-800 flex items-center justify-center shadow-sm">
+            <i class="fas fa-scroll text-amber-100 text-sm"></i>
+          </div>
+          <span class="font-bold text-xl tracking-tight text-stone-800 playfair">Historia<span class="text-stone-500">Sacra</span></span>
+        </div>
+        <div class="hidden md:flex gap-6 lg:gap-8">
+          <button data-page="home" class="nav-link text-stone-700 text-sm uppercase tracking-wide">მთავარი</button>
+          <button data-page="about" class="nav-link text-stone-700 text-sm uppercase tracking-wide">კლუბის შესახებ</button>
+          <button data-page="mission" class="nav-link text-stone-700 text-sm uppercase tracking-wide">მიზანი</button>
+          <button data-page="action-plan" class="nav-link text-stone-700 text-sm uppercase tracking-wide">სამოქმედო გეგმა</button>
+          <button data-page="gallery" class="nav-link text-stone-700 text-sm uppercase tracking-wide">გალერეა</button>
+          <button data-page="forum" class="nav-link text-stone-700 text-sm uppercase tracking-wide">ფორუმი</button>
+        </div>
+        <button id="mobileMenuBtn" class="md:hidden text-stone-700 text-xl"><i class="fas fa-bars"></i></button>
+      </div>
+      <div id="mobileMenu" class="hidden md:hidden pb-4 flex flex-col gap-2 border-t border-stone-100 pt-3">
+        <button data-page="home" class="mobile-nav-link text-left py-2 text-stone-700 hover:bg-stone-50 px-3 rounded-md">მთავარი</button>
+        <button data-page="about" class="mobile-nav-link text-left py-2 text-stone-700 hover:bg-stone-50 px-3 rounded-md">კლუბის შესახებ</button>
+        <button data-page="mission" class="mobile-nav-link text-left py-2 text-stone-700 hover:bg-stone-50 px-3 rounded-md">მიზანი</button>
+        <button data-page="action-plan" class="mobile-nav-link text-left py-2 text-stone-700 hover:bg-stone-50 px-3 rounded-md">სამოქმედო გეგმა</button>
+        <button data-page="gallery" class="mobile-nav-link text-left py-2 text-stone-700 hover:bg-stone-50 px-3 rounded-md">გალერეა</button>
+        <button data-page="forum" class="mobile-nav-link text-left py-2 text-stone-700 hover:bg-stone-50 px-3 rounded-md">ფორუმი</button>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <!-- HOME PAGE -->
+    <div id="page-home" class="page-content active-page">
+      <div class="hero-gradient text-white">
+        <div class="max-w-6xl mx-auto px-5 md:px-8 py-20 md:py-28">
+          <div class="max-w-2xl">
+            <span class="inline-block text-amber-300 text-sm tracking-widest mb-3 playfair">· მემკვიდრეობა ·</span>
+            <h1 class="text-5xl md:text-7xl font-bold playfair leading-tight">ისტორიულ–<br>რელიგიური კლუბი</h1>
+            <p class="text-stone-200 text-lg mt-5 border-l-3 border-amber-400 pl-5">წარსულის ცოდნა – მომავლის შთაგონება. ტრადიცია, დიალოგი, მემკვიდრეობა.</p>
+            <div class="mt-8 flex gap-4">
+              <button data-page="action-plan" class="bg-amber-600 hover:bg-amber-700 px-7 py-3 rounded-md font-semibold transition shadow-md">სამოქმედო გეგმა</button>
+              <button data-page="forum" class="border border-white/40 hover:bg-white/10 px-7 py-3 rounded-md font-semibold transition">ფორუმი</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="max-w-6xl mx-auto px-5 md:px-8 py-16">
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white p-7 rounded-xl shadow-sm border border-stone-100"><i class="fas fa-users text-3xl text-amber-600 mb-4"></i><h3 class="text-xl font-bold">50+ წევრი</h3><p class="text-stone-500 mt-1">მოსწავლე, კურსდამთავრებული, მასწავლებელი</p></div>
+          <div class="bg-white p-7 rounded-xl shadow-sm border border-stone-100"><i class="fas fa-landmark text-3xl text-amber-600 mb-4"></i><h3 class="text-xl font-bold">12+ პროექტი</h3><p class="text-stone-500 mt-1">განხორციელებული ინიციატივა</p></div>
+          <div class="bg-white p-7 rounded-xl shadow-sm border border-stone-100"><i class="fas fa-church text-3xl text-amber-600 mb-4"></i><h3 class="text-xl font-bold">20+ ექსკურსია</h3><p class="text-stone-500 mt-1">ისტორიულ ძეგლებში</p></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABOUT PAGE -->
+    <div id="page-about" class="page-content">
+      <div class="max-w-5xl mx-auto px-5 md:px-8 py-16">
+        <div class="bg-white rounded-2xl shadow-md p-8 md:p-12 border border-stone-100">
+          <div class="flex items-center gap-3 mb-6"><i class="fas fa-landmark text-3xl text-amber-600"></i><h2 class="text-3xl md:text-4xl font-bold playfair">კლუბის შესახებ</h2></div>
+          <p class="text-stone-700 leading-relaxed text-lg mb-5">ისტორიულ-რელიგიური კლუბი „Historia Sacra“ დაარსდა 2018 წელს. ჩვენი მიზანია შევისწავლოთ საქართველოს საეკლესიო ისტორია, რელიგიური მემკვიდრეობა და მსოფლიო რელიგიათა ურთიერთზეგავლენა. კლუბი აერთიანებს მოსწავლეებს, ისტორიის მოყვარულებსა და ახალგაზრდა მკვლევარებს.</p>
+          <p class="text-stone-700 leading-relaxed text-lg mb-6">ყოველ ხუთშაბათს ვიკრიბებით სკოლის ისტორიის კაბინეტში. ვატარებთ ლექციებს, დისკუსიებს, ექსკურსიებს, ვმუშაობთ არქივებში. კლუბს ხელმძღვანელობს გამოცდილი ისტორიკოსი და მოწვეული სპეციალისტები.</p>
+          <div class="flex flex-wrap gap-2"><span class="bg-stone-100 px-4 py-2 rounded-full text-sm">ხელნაწერები</span><span class="bg-stone-100 px-4 py-2 rounded-full text-sm">საეკლესიო ისტორია</span><span class="bg-stone-100 px-4 py-2 rounded-full text-sm">კულტურული მემკვიდრეობა</span><span class="bg-stone-100 px-4 py-2 rounded-full text-sm">პალეოგრაფია</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MISSION PAGE -->
+    <div id="page-mission" class="page-content">
+      <div class="max-w-5xl mx-auto px-5 md:px-8 py-16">
+        <div class="bg-white rounded-2xl shadow-md p-8 md:p-12 border border-stone-100">
+          <div class="flex items-center gap-3 mb-6"><i class="fas fa-bullseye text-3xl text-amber-600"></i><h2 class="text-3xl md:text-4xl font-bold playfair">კლუბის მიზანი</h2></div>
+          <div class="space-y-5">
+            <div class="flex gap-4"><i class="fas fa-check-circle text-amber-600 text-xl mt-1"></i><p class="text-stone-700">ისტორიულ-რელიგიური ძეგლების პოპულარიზაცია და დაცვის ცნობიერების ამაღლება</p></div>
+            <div class="flex gap-4"><i class="fas fa-check-circle text-amber-600 text-xl mt-1"></i><p class="text-stone-700">ტოლერანტობისა და რელიგიათაშორისი დიალოგის განვითარება ახალგაზრდებში</p></div>
+            <div class="flex gap-4"><i class="fas fa-check-circle text-amber-600 text-xl mt-1"></i><p class="text-stone-700">ისტორიულ წყაროებთან მუშაობის პრაქტიკული უნარების დანერგვა</p></div>
+            <div class="flex gap-4"><i class="fas fa-check-circle text-amber-600 text-xl mt-1"></i><p class="text-stone-700">მატერიალური და სულიერი კულტურის მემკვიდრეობის კვლევის სტიმულირება</p></div>
+            <div class="flex gap-4"><i class="fas fa-check-circle text-amber-600 text-xl mt-1"></i><p class="text-stone-700">ახალგაზრდული ლიდერობის განვითარება კვლევითი პროექტებით</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTION PLAN PAGE -->
+    <div id="page-action-plan" class="page-content">
+      <div class="max-w-6xl mx-auto px-5 md:px-8 py-16">
+        <div class="text-center mb-12"><i class="fas fa-table-list text-3xl text-amber-600"></i><h2 class="text-3xl md:text-4xl font-bold playfair mt-3">სამოქმედო გეგმა</h2><p class="text-stone-500 max-w-xl mx-auto mt-2">განხორციელებული, მიმდინარე და დაგეგმილი პროექტები</p></div>
+        <div class="overflow-x-auto bg-white rounded-xl shadow-md border border-stone-100">
+          <table class="action-table min-w-[720px]">
+            <thead><tr><th>პროექტი</th><th>აღწერა</th><th>სტატუსი</th><th>ვადა</th></tr></thead>
+            <tbody>
+              <tr><td class="font-semibold">ქართული სამონასტრო კერები</td><td>ექსპედიცია დავით გარეჯიში, ფოტოდოკუმენტაცია</td><td><span class="badge badge-completed">✓ განხორციელებული</span></td><td>2024, მაისი</td></tr>
+              <tr><td class="font-semibold">რელიგიური ტოლერანტობის კვირეული</td><td>დისკუსიები, შეხვედრები სხვადასხვა კონფესიის წარმომადგენლებთან</td><td><span class="badge badge-completed">✓ განხორციელებული</span></td><td>2024, ნოემბერი</td></tr>
+              <tr><td class="font-semibold">ციფრული არქივი</td><td>სკოლის მუზეუმის რელიგიური ექსპონატების ციფრული კატალოგი</td><td><span class="badge badge-ongoing">◉ მიმდინარე</span></td><td>2025, ივნისი</td></tr>
+              <tr><td class="font-semibold">საერთაშორისო კონფერენცია</td><td>„რელიგია და იდენტობა“ – მოსწავლეთა კვლევითი ნაშრომები</td><td><span class="badge badge-ongoing">◉ მიმდინარე</span></td><td>2025, აპრილი</td></tr>
+              <tr><td class="font-semibold">ვირტუალური ტური: საქართველოს მონუმენტები</td><td>3D ტური 10 ისტორიულ ტაძარში, ინტერაქტიული რუკა</td><td><span class="badge badge-planned">○ განსახორციელებელი</span></td><td>2025, სექტემბერი</td></tr>
+              <tr><td class="font-semibold">ახალგაზრდა მეგზურების პროგრამა</td><td>ტრენინგი სკოლის მოსწავლეებისთვის, ისტორიულ ძეგლებში გიდობაზე</td><td><span class="badge badge-planned">○ განსახორციელებელი</span></td><td>2025, დეკემბერი</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALLERY PAGE -->
+    <div id="page-gallery" class="page-content">
+      <div class="max-w-6xl mx-auto px-5 md:px-8 py-16">
+        <div class="text-center mb-12"><i class="fas fa-images text-3xl text-amber-600"></i><h2 class="text-3xl md:text-4xl font-bold playfair mt-3">გალერეა</h2><p class="text-stone-500 mt-1">ჩვენი კლუბის მოღვაწეობის მომენტები</p></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="gallery-card bg-white rounded-xl overflow-hidden shadow-sm"><div class="h-52 bg-gradient-to-br from-stone-200 to-amber-100 flex items-center justify-center"><i class="fas fa-landmark text-5xl text-stone-500/60"></i></div><div class="p-4"><p class="font-medium text-center">სვეტიცხოვლის ტური</p></div></div>
+          <div class="gallery-card bg-white rounded-xl overflow-hidden shadow-sm"><div class="h-52 bg-gradient-to-br from-amber-50 to-stone-200 flex items-center justify-center"><i class="fas fa-praying-hands text-5xl text-stone-500/60"></i></div><div class="p-4"><p class="font-medium text-center">დისკუსია ტოლერანტობაზე</p></div></div>
+          <div class="gallery-card bg-white rounded-xl overflow-hidden shadow-sm"><div class="h-52 bg-gradient-to-br from-stone-100 to-amber-100 flex items-center justify-center"><i class="fas fa-scroll text-5xl text-stone-500/60"></i></div><div class="p-4"><p class="font-medium text-center">ხელნაწერების ლაბორატორია</p></div></div>
+          <div class="gallery-card bg-white rounded-xl overflow-hidden shadow-sm"><div class="h-52 bg-gradient-to-br from-amber-100 to-stone-200 flex items-center justify-center"><i class="fas fa-church text-5xl text-stone-500/60"></i></div><div class="p-4"><p class="font-medium text-center">ჯვრის მონასტერი</p></div></div>
+          <div class="gallery-card bg-white rounded-xl overflow-hidden shadow-sm"><div class="h-52 bg-gradient-to-br from-stone-200 to-amber-50 flex items-center justify-center"><i class="fas fa-university text-5xl text-stone-500/60"></i></div><div class="p-4"><p class="font-medium text-center">არქეოლოგიური ლაბორატორია</p></div></div>
+          <div class="gallery-card bg-white rounded-xl overflow-hidden shadow-sm"><div class="h-52 bg-gradient-to-br from-amber-50 to-stone-300 flex items-center justify-center"><i class="fas fa-users text-5xl text-stone-500/60"></i></div><div class="p-4"><p class="font-medium text-center">კლუბის წევრები 2024</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FORUM PAGE -->
+    <div id="page-forum" class="page-content">
+      <div class="max-w-6xl mx-auto px-5 md:px-8 py-16">
+        <div class="text-center mb-12"><i class="fas fa-comments text-3xl text-amber-600"></i><h2 class="text-3xl md:text-4xl font-bold playfair mt-3">ფორუმი</h2><p class="text-stone-500">გაცვალეთ მოსაზრებები ისტორიისა და რელიგიის შესახებ</p></div>
+        <div class="grid lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2 space-y-4">
+            <div class="forum-post bg-white p-5 rounded-xl shadow-sm"><div class="flex justify-between items-start"><h3 class="font-bold text-lg">ბიბლიოთეკის ძველი გამოცემები</h3><span class="text-xs text-stone-400">2 საათის წინ</span></div><p class="text-stone-600 mt-2">როგორ ფიქრობთ, ღირს სკოლაში რელიგიური ხელნაწერების ციფრული ასლების შექმნა?</p><div class="flex gap-4 mt-3 text-sm"><i class="far fa-heart text-stone-400"></i> 12 &nbsp;<i class="far fa-comment"></i> 5</div></div>
+            <div class="forum-post bg-white p-5 rounded-xl shadow-sm"><div class="flex justify-between"><h3 class="font-bold text-lg">წარმართული ტრადიციები ქრისტიანობაში</h3><span class="text-xs text-stone-400">გუშინ</span></div><p class="text-stone-600 mt-2">როგორ შეერწყა ქართულ წარმართული რიტუალები ქრისტიანულ დღესასწაულებს?</p><div class="flex gap-4 mt-3 text-sm"><i class="far fa-heart text-stone-400"></i> 8 &nbsp;<i class="far fa-comment"></i> 3</div></div>
+            <div class="forum-post bg-white p-5 rounded-xl shadow-sm"><div class="flex justify-between"><h3 class="font-bold text-lg">რელიგიის ისტორია სკოლაში</h3><span class="text-xs text-stone-400">3 დღის წინ</span></div><p class="text-stone-600 mt-2">საჭიროა თუ არა სასკოლო პროგრამაში რელიგიის ისტორიის მეტი მოდული?</p><div class="flex gap-4 mt-3 text-sm"><i class="far fa-heart text-stone-400"></i> 21 &nbsp;<i class="far fa-comment"></i> 9</div></div>
+          </div>
+          <div class="bg-white/90 rounded-xl p-6 shadow-md border border-stone-100 h-fit sticky top-28"><h3 class="font-bold text-xl mb-4 playfair">ახალი თემა</h3><input type="text" placeholder="სათაური" class="w-full border border-stone-200 rounded-lg p-3 mb-3 focus:ring-1 focus:ring-amber-400 outline-none"><textarea rows="3" placeholder="დაწერე შენი აზრი..." class="w-full border border-stone-200 rounded-lg p-3 focus:ring-1 focus:ring-amber-400 outline-none"></textarea><button class="w-full bg-stone-800 hover:bg-stone-700 text-white font-semibold py-2.5 rounded-lg mt-3 transition">გამოქვეყნება</button><p class="text-center text-xs text-stone-400 mt-3">დემო ფორუმი — იდეებისთვის</p></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER always at bottom -->
+  <footer class="bg-stone-900 text-stone-400 py-8 mt-12 border-t border-stone-800">
+    <div class="max-w-6xl mx-auto px-5 md:px-8 text-center">
+      <div class="flex justify-center gap-6 text-xl mb-4"><i class="fab fa-facebook hover:text-amber-400 transition"></i><i class="fab fa-instagram hover:text-amber-400 transition"></i><i class="fab fa-telegram hover:text-amber-400 transition"></i></div>
+      <p class="text-sm">© 2025 ისტორიულ-რელიგიური კლუბი „Historia Sacra“ — ყველა უფლება დაცულია</p>
+    </div>
+  </footer>
+
+  <script>
+    const pages = ['home', 'about', 'mission', 'action-plan', 'gallery', 'forum'];
+    const navLinks = document.querySelectorAll('.nav-link');
+    const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+    const allPageTriggers = document.querySelectorAll('[data-page]');
+
+    function showPage(pageId) {
+      pages.forEach(p => {
+        const el = document.getElementById(`page-${p}`);
+        if (el) el.classList.remove('active-page');
+      });
+      const active = document.getElementById(`page-${pageId}`);
+      if (active) active.classList.add('active-page');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-page') === pageId) link.classList.add('active');
+        else link.classList.remove('active');
+      });
+      mobileNavLinks.forEach(link => {
+        if (link.getAttribute('data-page') === pageId) link.classList.add('active', 'text-amber-700', 'bg-stone-50');
+        else link.classList.remove('active', 'text-amber-700', 'bg-stone-50');
+      });
+      localStorage.setItem('activeClubPage', pageId);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    allPageTriggers.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const page = btn.getAttribute('data-page');
+        if (page) showPage(page);
+        const mobileMenu = document.getElementById('mobileMenu');
+        if (mobileMenu) mobileMenu.classList.add('hidden');
+      });
+    });
+
+    const saved = localStorage.getItem('activeClubPage');
+    if (saved && pages.includes(saved)) showPage(saved);
+    else showPage('home');
+
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+      document.getElementById('mobileMenu')?.classList.toggle('hidden');
+    });
+  </script>
+</body>
+</html>
